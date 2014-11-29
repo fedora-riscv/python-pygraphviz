@@ -38,6 +38,7 @@ This package contains the version for Python 3.
 Summary:        Documentation for pygraphviz
 Group:          Documentation
 Requires:       %{name} = %{version}-%{release}
+Provides:       bundled(jquery)
 BuildArch:      noarch
 
 %description doc
