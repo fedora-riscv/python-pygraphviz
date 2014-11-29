@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.3rc2
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 # https://github.com/pygraphviz/pygraphviz/issues/39
@@ -84,6 +84,10 @@ chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
 %doc %{_pkgdocdir}/examples
 
 %changelog
+* Sat Nov 29 2014 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.3rc2-2
+- Fixed after review: use more macros, include directories in %files,
+  add provides for bundled jquery, remove empty file.
+
 * Mon Nov 24 2014 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.3rc2-1
 - Update to latest version, build sphinx docs, add python3 subpackage.
 
