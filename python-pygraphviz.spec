@@ -47,18 +47,19 @@ Documentation for pygraphviz
 %setup -q -n pygraphviz-%{version}
 # remove she-bang line
 sed -i '1d' pygraphviz/tests/test.py
+rm doc/source/static/empty.txt
 
 %build
-python2 setup.py build
-python3 setup.py build
+%{__python2} setup.py build
+%{__python3} setup.py build
 
 # docs
-python2 setup.py build_ext -i
-make -C doc html PYTHONPATH=..
+%{__python2} setup.py build_ext -i
+make %{?_smp_mflags} -C doc html PYTHONPATH=..
 
 %install
-python2 setup.py install -O1 --skip-build --root %{buildroot}
-python3 setup.py install -O1 --skip-build --root %{buildroot}
+%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
+%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
 mv %{buildroot}%{_docdir}/pygraphviz-%{version} %{buildroot}%{_pkgdocdir}
 rm %{buildroot}%{_pkgdocdir}/INSTALL.txt
 rm -r doc/build/html/.buildinfo
@@ -73,9 +74,11 @@ chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
 
 %files -n python3-pygraphviz
 %{python3_sitearch}/*
+%doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/README.txt
 
 %files doc
+%doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/html
 %doc %{_pkgdocdir}/examples
 
