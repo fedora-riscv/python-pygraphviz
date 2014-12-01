@@ -1,11 +1,11 @@
 Name:           python-pygraphviz
-Version:        1.3rc2
-Release:        2%{?dist}
+Version:        1.3
+Release:        2.rc2%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 # https://github.com/pygraphviz/pygraphviz/issues/39
 URL:            http://networkx.lanl.gov/pygraphviz/
-Source0:        http://pypi.python.org/packages/source/p/pygraphviz/pygraphviz-%{version}.tar.gz
+Source0:        http://pypi.python.org/packages/source/p/pygraphviz/pygraphviz-1.3rc2.tar.gz
 
 BuildRequires:  python2-devel python3-devel
 BuildRequires:  python-sphinx
@@ -45,7 +45,7 @@ BuildArch:      noarch
 Documentation for pygraphviz
 
 %prep
-%setup -q -n pygraphviz-%{version}
+%setup -q -n pygraphviz-1.3rc2
 # remove she-bang line
 sed -i '1d' pygraphviz/tests/test.py
 rm doc/source/static/empty.txt
@@ -61,7 +61,7 @@ make %{?_smp_mflags} -C doc html PYTHONPATH=..
 %install
 %{__python2} setup.py install -O1 --skip-build --root %{buildroot}
 %{__python3} setup.py install -O1 --skip-build --root %{buildroot}
-mv %{buildroot}%{_docdir}/pygraphviz-%{version} %{buildroot}%{_pkgdocdir}
+mv %{buildroot}%{_docdir}/pygraphviz-* %{buildroot}%{_pkgdocdir}
 rm %{buildroot}%{_pkgdocdir}/INSTALL.txt
 rm -r doc/build/html/.buildinfo
 cp -av doc/build/html %{buildroot}%{_pkgdocdir}/
@@ -84,6 +84,9 @@ chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
 %doc %{_pkgdocdir}/examples
 
 %changelog
+* Sun Nov 30 2014 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.3-2rc2
+- Reformat version string to follow guidelines for pre-release versions
+
 * Sat Nov 29 2014 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.3rc2-2
 - Fixed after review: use more macros, include directories in %files,
   add provides for bundled jquery, remove empty file.
