@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.3
-Release:        2.rc2%{?dist}.1
+Release:        3.rc2%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 # https://github.com/pygraphviz/pygraphviz/issues/39
@@ -10,39 +10,42 @@ Source0:        http://pypi.python.org/packages/source/p/pygraphviz/pygraphviz-1
 BuildRequires:  python2-devel python3-devel
 BuildRequires:  python-sphinx
 BuildRequires:  graphviz-devel
-Requires:       graphviz-python
 
-%description
-PyGraphviz is a Python interface to the Graphviz graph layout and
-visualization package. With PyGraphviz you can create, edit, read,
-write, and draw graphs using Python to access the Graphviz graph data
-structure and layout algorithms. PyGraphviz is independent from
+%global _description                                                  \
+PyGraphviz is a Python interface to the Graphviz graph layout and     \
+visualization package. With PyGraphviz you can create, edit, read,    \
+write, and draw graphs using Python to access the Graphviz graph data \
+structure and layout algorithms. PyGraphviz is independent from       \
 NetworkX but provides a similar programming interface.
+
+%description %_description
+
+%package -n python2-pygraphviz
+Summary:        %{summary}
+Requires:	python-nose
+%{?python_provide:%python_provide python2-pygraphviz}
+Obsoletes:      python-pygraphviz < 1.3-3.rc2
+
+%description -n python2-pygraphviz %_description
 
 This package contains the version for Python 2.
 
 %package -n python3-pygraphviz
-Summary:        Create and Manipulate Graphs and Networks
-Requires:       graphviz-python
+Summary:        %{summary}
+Requires:	python3-nose
+%{?python_provide:%python_provide python3-pygraphviz}
 
-%description -n python3-pygraphviz
-PyGraphviz is a Python interface to the Graphviz graph layout and
-visualization package. With PyGraphviz you can create, edit, read,
-write, and draw graphs using Python to access the Graphviz graph data
-structure and layout algorithms. PyGraphviz is independent from
-NetworkX but provides a similar programming interface.
+%description -n python3-pygraphviz %_description
 
 This package contains the version for Python 3.
 
 %package doc
 Summary:        Documentation for pygraphviz
-Group:          Documentation
-Requires:       %{name} = %{version}-%{release}
 Provides:       bundled(jquery)
 BuildArch:      noarch
 
 %description doc
-Documentation for pygraphviz
+Documentation for PyGraphViz.
 
 %prep
 %setup -q -n pygraphviz-1.3rc2
@@ -51,24 +54,27 @@ sed -i '1d' pygraphviz/tests/test.py
 rm doc/source/static/empty.txt
 
 %build
-%{__python2} setup.py build
-%{__python3} setup.py build
+%py2_build
+%py3_build
+
 
 # docs
 %{__python2} setup.py build_ext -i
-make %{?_smp_mflags} -C doc html PYTHONPATH=..
+%make_build -C doc html PYTHONPATH=..
 
 %install
-%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
-%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
+%py2_install
+%py3_install
 mv %{buildroot}%{_docdir}/pygraphviz-* %{buildroot}%{_pkgdocdir}
 rm %{buildroot}%{_pkgdocdir}/INSTALL.txt
-rm -r doc/build/html/.buildinfo
+rm doc/build/html/.buildinfo
 cp -av doc/build/html %{buildroot}%{_pkgdocdir}/
 chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
           %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so
 
-%files
+%global _docdir_fmt %{name}
+
+%files -n python2-pygraphviz
 %{python_sitearch}/*
 %doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/README.txt
@@ -84,6 +90,10 @@ chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
 %doc %{_pkgdocdir}/examples
 
 %changelog
+* Tue Apr  5 2016 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.3-3.rc2
+- Rename python2 subpackage to python2-pygraphviz
+- Fix Requires (#1324237)
+
 * Thu Jun 18 2015 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3-2.rc2.1
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_23_Mass_Rebuild
 
