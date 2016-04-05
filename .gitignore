@@ -1,1 +1,6 @@
+/noarch/
+/x86_64/
+/i686/
+/.build-*.log
+/python-pygraphviz-*.src.rpm
 /pygraphviz-1.3rc2.tar.gz
