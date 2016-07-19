@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.3
-Release:        3.rc2%{?dist}
+Release:        3.rc2%{?dist}.1
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 # https://github.com/pygraphviz/pygraphviz/issues/39
@@ -90,6 +90,9 @@ chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
 %doc %{_pkgdocdir}/examples
 
 %changelog
+* Tue Jul 19 2016 Fedora Release Engineering <rel-eng@lists.fedoraproject.org> - 1.3-3.rc2.1
+- https://fedoraproject.org/wiki/Changes/Automatic_Provides_for_Python_RPM_Packages
+
 * Tue Apr  5 2016 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.3-3.rc2
 - Rename python2 subpackage to python2-pygraphviz
 - Fix Requires (#1324237)
