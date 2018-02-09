@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.3
-Release:        3.rc2%{?dist}.6
+Release:        3.rc2%{?dist}.7
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 # https://github.com/pygraphviz/pygraphviz/issues/39
@@ -90,6 +90,9 @@ chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
 %doc %{_pkgdocdir}/examples
 
 %changelog
+* Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-3.rc2.7
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
+
 * Fri Feb 09 2018 Igor Gnatenko <ignatenkobrain@fedoraproject.org> - 1.3-3.rc2.6
 - Escape macros in %%changelog
 
