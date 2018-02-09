@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.3
-Release:        3.rc2%{?dist}.7
+Release:        3.rc2%{?dist}.8
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 # https://github.com/pygraphviz/pygraphviz/issues/39
@@ -8,7 +8,7 @@ URL:            http://networkx.lanl.gov/pygraphviz/
 Source0:        http://pypi.python.org/packages/source/p/pygraphviz/pygraphviz-1.3rc2.tar.gz
 
 BuildRequires:  python2-devel python3-devel
-BuildRequires:  python-sphinx
+BuildRequires:  python2-sphinx
 BuildRequires:  graphviz-devel
 
 %global _description                                                  \
@@ -22,7 +22,7 @@ NetworkX but provides a similar programming interface.
 
 %package -n python2-pygraphviz
 Summary:        %{summary}
-Requires:	python-nose
+Requires:	python2-nose
 %{?python_provide:%python_provide python2-pygraphviz}
 Obsoletes:      python-pygraphviz < 1.3-3.rc2
 
@@ -90,6 +90,10 @@ chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
 %doc %{_pkgdocdir}/examples
 
 %changelog
+* Fri Feb 09 2018 Iryna Shcherbina <ishcherb@redhat.com> - 1.3-3.rc2.8
+- Update Python 2 dependency declarations to new packaging standards
+  (See https://fedoraproject.org/wiki/FinalizingFedoraSwitchtoPython3)
+
 * Fri Feb 09 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-3.rc2.7
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_28_Mass_Rebuild
 
