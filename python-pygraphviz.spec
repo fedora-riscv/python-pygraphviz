@@ -7,6 +7,7 @@ License:        BSD
 URL:            http://networkx.lanl.gov/pygraphviz/
 Source0:        http://pypi.python.org/packages/source/p/pygraphviz/pygraphviz-1.3rc2.tar.gz
 
+BuildRequires:  gcc
 BuildRequires:  python2-devel python3-devel
 BuildRequires:  python2-sphinx
 BuildRequires:  graphviz-devel
