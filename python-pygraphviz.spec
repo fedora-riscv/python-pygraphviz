@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.3
-Release:        3.rc2%{?dist}.10
+Release:        3.rc2%{?dist}.11
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 # https://github.com/pygraphviz/pygraphviz/issues/39
@@ -70,13 +70,13 @@ mv %{buildroot}%{_docdir}/pygraphviz-* %{buildroot}%{_pkgdocdir}
 rm %{buildroot}%{_pkgdocdir}/INSTALL.txt
 rm doc/build/html/.buildinfo
 cp -av doc/build/html %{buildroot}%{_pkgdocdir}/
-chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
+chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
           %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so
 
 %global _docdir_fmt %{name}
 
 %files -n python2-pygraphviz
-%{python_sitearch}/*
+%{python2_sitearch}/*
 %doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/README.txt
 
@@ -91,6 +91,10 @@ chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
 %doc %{_pkgdocdir}/examples
 
 %changelog
+* Tue Jul 17 2018 Miro Hrončok <mhroncok@redhat.com> - 1.3-3.rc2.11
+- Update Python macros to new packaging standards
+  (See https://fedoraproject.org/wiki/Changes/Move_usr_bin_python_into_separate_package)
+
 * Sat Jul 14 2018 Fedora Release Engineering <releng@fedoraproject.org> - 1.3-3.rc2.10
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_29_Mass_Rebuild
 
