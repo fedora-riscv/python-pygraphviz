@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.3
-Release:        3.rc2%{?dist}.11
+Release:        3.rc2%{?dist}.12
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 # https://github.com/pygraphviz/pygraphviz/issues/39
@@ -8,8 +8,8 @@ URL:            http://networkx.lanl.gov/pygraphviz/
 Source0:        http://pypi.python.org/packages/source/p/pygraphviz/pygraphviz-1.3rc2.tar.gz
 
 BuildRequires:  gcc
-BuildRequires:  python2-devel python3-devel
-BuildRequires:  python2-sphinx
+BuildRequires:  python3-devel
+BuildRequires:  python3-sphinx
 BuildRequires:  graphviz-devel
 
 %global _description                                                  \
@@ -20,16 +20,6 @@ structure and layout algorithms. PyGraphviz is independent from       \
 NetworkX but provides a similar programming interface.
 
 %description %_description
-
-%package -n python2-pygraphviz
-Summary:        %{summary}
-Requires:	python2-nose
-%{?python_provide:%python_provide python2-pygraphviz}
-Obsoletes:      python-pygraphviz < 1.3-3.rc2
-
-%description -n python2-pygraphviz %_description
-
-This package contains the version for Python 2.
 
 %package -n python3-pygraphviz
 Summary:        %{summary}
@@ -55,30 +45,20 @@ sed -i '1d' pygraphviz/tests/test.py
 rm doc/source/static/empty.txt
 
 %build
-%py2_build
 %py3_build
 
-
 # docs
-%{__python2} setup.py build_ext -i
-%make_build -C doc html PYTHONPATH=..
+%make_build -C doc SPHINXBUILD=sphinx-build-3 html PYTHONPATH=$(pwd)/build/lib.%{python3_platform}-%{python3_version}
 
 %install
-%py2_install
 %py3_install
 mv %{buildroot}%{_docdir}/pygraphviz-* %{buildroot}%{_pkgdocdir}
 rm %{buildroot}%{_pkgdocdir}/INSTALL.txt
 rm doc/build/html/.buildinfo
 cp -av doc/build/html %{buildroot}%{_pkgdocdir}/
-chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
-          %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so
+chmod g-w %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so
 
 %global _docdir_fmt %{name}
-
-%files -n python2-pygraphviz
-%{python2_sitearch}/*
-%doc %dir %{_pkgdocdir}
-%doc %{_pkgdocdir}/README.txt
 
 %files -n python3-pygraphviz
 %{python3_sitearch}/*
@@ -91,6 +71,10 @@ chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
 %doc %{_pkgdocdir}/examples
 
 %changelog
+* Fri Jan 04 2019 Miro Hrončok <mhroncok@redhat.com> - 1.3-3.rc2.12
+- Subpackage python2-pygraphviz has been removed
+  See https://fedoraproject.org/wiki/Changes/Mass_Python_2_Package_Removal
+
 * Tue Jul 17 2018 Miro Hrončok <mhroncok@redhat.com> - 1.3-3.rc2.11
 - Update Python macros to new packaging standards
   (See https://fedoraproject.org/wiki/Changes/Move_usr_bin_python_into_separate_package)
