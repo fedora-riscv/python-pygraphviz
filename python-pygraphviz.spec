@@ -1,48 +1,61 @@
 Name:           python-pygraphviz
 Version:        1.3
-Release:        2.rc2%{?dist}
+Release:        2.rc2%{?dist}.1
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 # https://github.com/pygraphviz/pygraphviz/issues/39
 URL:            http://networkx.lanl.gov/pygraphviz/
 Source0:        http://pypi.python.org/packages/source/p/pygraphviz/pygraphviz-1.3rc2.tar.gz
 
-BuildRequires:  python2-devel python3-devel
-BuildRequires:  python-sphinx
+BuildRequires:  gcc
+BuildRequires:  python2-devel python%{python3_pkgversion}-devel python%{python3_other_pkgversion}-devel
+BuildRequires:  python%{python3_pkgversion}-sphinx
 BuildRequires:  graphviz-devel
-Requires:       graphviz-python
 
-%description
-PyGraphviz is a Python interface to the Graphviz graph layout and
-visualization package. With PyGraphviz you can create, edit, read,
-write, and draw graphs using Python to access the Graphviz graph data
-structure and layout algorithms. PyGraphviz is independent from
+%global _description                                                  \
+PyGraphviz is a Python interface to the Graphviz graph layout and     \
+visualization package. With PyGraphviz you can create, edit, read,    \
+write, and draw graphs using Python to access the Graphviz graph data \
+structure and layout algorithms. PyGraphviz is independent from       \
 NetworkX but provides a similar programming interface.
+
+%description %_description
+
+%package -n python2-pygraphviz
+Summary:        %{summary}
+Requires:	python2-nose
+%{?python_provide:%python_provide python2-pygraphviz}
+Obsoletes:      python-pygraphviz < 1.3-3.rc2
+
+%description -n python2-pygraphviz %_description
 
 This package contains the version for Python 2.
 
-%package -n python3-pygraphviz
-Summary:        Create and Manipulate Graphs and Networks
-Requires:       graphviz-python
+%package -n python%{python3_pkgversion}-pygraphviz
+Summary:        %{summary}
+Requires:	python%{python3_pkgversion}-nose
+%{?python_provide:%python_provide python%{python3_pkgversion}-pygraphviz}
 
-%description -n python3-pygraphviz
-PyGraphviz is a Python interface to the Graphviz graph layout and
-visualization package. With PyGraphviz you can create, edit, read,
-write, and draw graphs using Python to access the Graphviz graph data
-structure and layout algorithms. PyGraphviz is independent from
-NetworkX but provides a similar programming interface.
+%description -n python%{python3_pkgversion}-pygraphviz %_description
 
-This package contains the version for Python 3.
+This package contains the version for Python %{python3_version}.
+
+%package -n python%{python3_other_pkgversion}-pygraphviz
+Summary:        %{summary}
+Requires:	python%{python3_other_pkgversion}-nose
+%{?python_provide:%python_provide python%{python3_other_pkgversion}-pygraphviz}
+
+%description -n python%{python3_other_pkgversion}-pygraphviz %_description
+
+This package contains the version for Python %{python3_other_version}.
 
 %package doc
 Summary:        Documentation for pygraphviz
-Group:          Documentation
-Requires:       %{name} = %{version}-%{release}
 Provides:       bundled(jquery)
 BuildArch:      noarch
 
 %description doc
-Documentation for pygraphviz
+Documentation for PyGraphViz.
 
 %prep
 %setup -q -n pygraphviz-1.3rc2
@@ -51,30 +64,39 @@ sed -i '1d' pygraphviz/tests/test.py
 rm doc/source/static/empty.txt
 
 %build
-%{__python2} setup.py build
-%{__python3} setup.py build
+%py2_build
+%py3_build
+%py3_other_build
 
 # docs
-%{__python2} setup.py build_ext -i
-make %{?_smp_mflags} -C doc html PYTHONPATH=..
+%make_build -C doc SPHINXBUILD=sphinx-build-3 html PYTHONPATH=$(pwd)/build/lib.%{python3_platform}-%{python3_version}
 
 %install
-%{__python2} setup.py install -O1 --skip-build --root %{buildroot}
-%{__python3} setup.py install -O1 --skip-build --root %{buildroot}
+%py2_install
+%py3_install
+%py3_other_install
 mv %{buildroot}%{_docdir}/pygraphviz-* %{buildroot}%{_pkgdocdir}
 rm %{buildroot}%{_pkgdocdir}/INSTALL.txt
-rm -r doc/build/html/.buildinfo
+rm doc/build/html/.buildinfo
 cp -av doc/build/html %{buildroot}%{_pkgdocdir}/
-chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
-          %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so
+chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
+          %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so \
+          %{buildroot}%{python3_other_sitearch}/pygraphviz/_graphviz.*.so
 
-%files
-%{python_sitearch}/*
+%global _docdir_fmt %{name}
+
+%files -n python2-pygraphviz
+%{python2_sitearch}/*
 %doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/README.txt
 
-%files -n python3-pygraphviz
+%files -n python%{python3_pkgversion}-pygraphviz
 %{python3_sitearch}/*
+%doc %dir %{_pkgdocdir}
+%doc %{_pkgdocdir}/README.txt
+
+%files -n python%{python3_other_pkgversion}-pygraphviz
+%{python3_other_sitearch}/*
 %doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/README.txt
 
@@ -84,11 +106,14 @@ chmod g-w %{buildroot}%{python_sitearch}/pygraphviz/_graphviz.so \
 %doc %{_pkgdocdir}/examples
 
 %changelog
+* Wed Jan 23 2019 Scott K Logan <logans@cottsay.net> - 1.3-2rc2.1
+- Update spec format and add Python 3.4 and 3.6 to EPEL7
+
 * Sun Nov 30 2014 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.3-2rc2
 - Reformat version string to follow guidelines for pre-release versions
 
 * Sat Nov 29 2014 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.3rc2-2
-- Fixed after review: use more macros, include directories in %files,
+- Fixed after review: use more macros, include directories in %%files,
   add provides for bundled jquery, remove empty file.
 
 * Mon Nov 24 2014 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.3rc2-1
