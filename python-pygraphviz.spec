@@ -7,8 +7,14 @@ License:        BSD
 URL:            http://networkx.lanl.gov/pygraphviz/
 Source0:        http://pypi.python.org/packages/source/p/pygraphviz/pygraphviz-1.3rc2.tar.gz
 
+%global with_python3_other %{defined python3_other_pkgversion}
+
 BuildRequires:  gcc
-BuildRequires:  python2-devel python%{python3_pkgversion}-devel python%{python3_other_pkgversion}-devel
+BuildRequires:  python2-devel
+BuildRequires:  python%{python3_pkgversion}-devel
+%if %with_python3_other
+BuildRequires:  python%{python3_other_pkgversion}-devel
+%endif
 BuildRequires:  python%{python3_pkgversion}-sphinx
 BuildRequires:  graphviz-devel
 
@@ -40,6 +46,7 @@ Requires:	python%{python3_pkgversion}-nose
 
 This package contains the version for Python %{python3_version}.
 
+%if %with_python3_other
 %package -n python%{python3_other_pkgversion}-pygraphviz
 Summary:        %{summary}
 Requires:	python%{python3_other_pkgversion}-nose
@@ -48,6 +55,7 @@ Requires:	python%{python3_other_pkgversion}-nose
 %description -n python%{python3_other_pkgversion}-pygraphviz %_description
 
 This package contains the version for Python %{python3_other_version}.
+%endif
 
 %package doc
 Summary:        Documentation for pygraphviz
@@ -66,7 +74,9 @@ rm doc/source/static/empty.txt
 %build
 %py2_build
 %py3_build
+%if %with_python3_other
 %py3_other_build
+%endif
 
 # docs
 %make_build -C doc SPHINXBUILD=sphinx-build-3 html PYTHONPATH=$(pwd)/build/lib.%{python3_platform}-%{python3_version}
@@ -74,14 +84,18 @@ rm doc/source/static/empty.txt
 %install
 %py2_install
 %py3_install
+%if %with_python3_other
 %py3_other_install
+%endif
 mv %{buildroot}%{_docdir}/pygraphviz-* %{buildroot}%{_pkgdocdir}
 rm %{buildroot}%{_pkgdocdir}/INSTALL.txt
 rm doc/build/html/.buildinfo
 cp -av doc/build/html %{buildroot}%{_pkgdocdir}/
 chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
           %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so \
+%if %with_python3_other
           %{buildroot}%{python3_other_sitearch}/pygraphviz/_graphviz.*.so
+%endif
 
 %global _docdir_fmt %{name}
 
@@ -95,10 +109,12 @@ chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
 %doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/README.txt
 
+%if %with_python3_other
 %files -n python%{python3_other_pkgversion}-pygraphviz
 %{python3_other_sitearch}/*
 %doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/README.txt
+%endif
 
 %files doc
 %doc %dir %{_pkgdocdir}
