@@ -1,16 +1,21 @@
 Name:           python-pygraphviz
-Version:        1.3
-Release:        3.rc2%{?dist}.11
+Version:        1.5
+Release:        1%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
-# https://github.com/pygraphviz/pygraphviz/issues/39
 URL:            http://networkx.lanl.gov/pygraphviz/
-Source0:        http://pypi.python.org/packages/source/p/pygraphviz/pygraphviz-1.3rc2.tar.gz
+Source0:        https://github.com/pygraphviz/pygraphviz/archive/pygraphviz-%{version}.tar.gz
+# Fix a few types in the swig interface
+# https://github.com/pygraphviz/pygraphviz
+Patch0:         pygraphviz-swig.patch
 
 BuildRequires:  gcc
 BuildRequires:  python2-devel python3-devel
-BuildRequires:  python2-sphinx
+BuildRequires:  python2dist(setuptools)
+BuildRequires:  python3dist(setuptools)
+BuildRequires:  python3dist(sphinx)
 BuildRequires:  graphviz-devel
+BuildRequires:  swig
 
 %global _description                                                  \
 PyGraphviz is a Python interface to the Graphviz graph layout and     \
@@ -23,7 +28,6 @@ NetworkX but provides a similar programming interface.
 
 %package -n python2-pygraphviz
 Summary:        %{summary}
-Requires:	python2-nose
 %{?python_provide:%python_provide python2-pygraphviz}
 Obsoletes:      python-pygraphviz < 1.3-3.rc2
 
@@ -33,7 +37,6 @@ This package contains the version for Python 2.
 
 %package -n python3-pygraphviz
 Summary:        %{summary}
-Requires:	python3-nose
 %{?python_provide:%python_provide python3-pygraphviz}
 
 %description -n python3-pygraphviz %_description
@@ -49,10 +52,17 @@ BuildArch:      noarch
 Documentation for PyGraphViz.
 
 %prep
-%setup -q -n pygraphviz-1.3rc2
-# remove she-bang line
-sed -i '1d' pygraphviz/tests/test.py
-rm doc/source/static/empty.txt
+%autosetup -p0 -n pygraphviz-pygraphviz-%{version}
+
+# Regenerate the swig-generated files
+swig -python pygraphviz/graphviz.i
+
+# Fix the shebangs in the examples
+for fil in examples/*.py; do
+  sed -i.orig 's,%{_bindir}/env python,%{__python3},' $fil
+  touch -r $fil.orig $fil
+  rm $fil.orig
+done
 
 %build
 %py2_build
@@ -60,7 +70,7 @@ rm doc/source/static/empty.txt
 
 
 # docs
-%{__python2} setup.py build_ext -i
+%{__python3} setup.py build_ext -i
 %make_build -C doc html PYTHONPATH=..
 
 %install
@@ -68,6 +78,7 @@ rm doc/source/static/empty.txt
 %py3_install
 mv %{buildroot}%{_docdir}/pygraphviz-* %{buildroot}%{_pkgdocdir}
 rm %{buildroot}%{_pkgdocdir}/INSTALL.txt
+cp -p README.rst %{buildroot}%{_pkgdocdir}
 rm doc/build/html/.buildinfo
 cp -av doc/build/html %{buildroot}%{_pkgdocdir}/
 chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
@@ -76,21 +87,38 @@ chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
 %global _docdir_fmt %{name}
 
 %files -n python2-pygraphviz
-%{python2_sitearch}/*
+%{python2_sitearch}/pygraphviz*
+%exclude %{python2_sitearch}/pygraphviz/tests
+%exclude %{python2_sitearch}/pygraphviz/graphviz_wrap.c
 %doc %dir %{_pkgdocdir}
-%doc %{_pkgdocdir}/README.txt
+%doc %{_pkgdocdir}/README.rst
+%license LICENSE
 
 %files -n python3-pygraphviz
-%{python3_sitearch}/*
+%{python3_sitearch}/pygraphviz*
+%exclude %{python3_sitearch}/pygraphviz/tests
+%exclude %{python3_sitearch}/pygraphviz/graphviz_wrap.c
 %doc %dir %{_pkgdocdir}
-%doc %{_pkgdocdir}/README.txt
+%doc %{_pkgdocdir}/README.rst
+%license LICENSE
 
 %files doc
 %doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/html
 %doc %{_pkgdocdir}/examples
+%license LICENSE
 
 %changelog
+* Thu Oct 11 2018 Jerry James <loganjerry@gmail.com> - 1.5-1
+- Update to latest version
+- Drop nose requirement; only needed to run tests, not to use the package
+- Add swig patch to fix type-related compiler warnings
+- Regenerate the swig files
+- Do not ship the test code or the swig-generated C file
+- Build sphinx docs with python3 instead of python2
+- Ship LICENSE file with all packages
+- Fix shebang in example code
+
 * Tue Jul 17 2018 Miro Hrončok <mhroncok@redhat.com> - 1.3-3.rc2.11
 - Update Python macros to new packaging standards
   (See https://fedoraproject.org/wiki/Changes/Move_usr_bin_python_into_separate_package)
