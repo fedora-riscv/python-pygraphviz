@@ -58,8 +58,7 @@ done
 %py3_build
 
 # docs
-%{__python3} setup.py build_ext -i
-%make_build -C doc html PYTHONPATH=..
+%make_build -C doc html PYTHONPATH=$(pwd)/build/lib.%{python3_platform}-%{python3_version}
 
 %install
 %py3_install
