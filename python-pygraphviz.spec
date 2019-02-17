@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.5
-Release:        2%{?dist}
+Release:        3%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 URL:            http://networkx.lanl.gov/pygraphviz/
@@ -73,7 +73,6 @@ chmod g-w %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so
 
 %files -n python3-pygraphviz
 %{python3_sitearch}/pygraphviz*
-%exclude %{python3_sitearch}/pygraphviz/tests
 %exclude %{python3_sitearch}/pygraphviz/graphviz_wrap.c
 %doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/README.rst
@@ -86,6 +85,9 @@ chmod g-w %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so
 %license LICENSE
 
 %changelog
+* Sun Feb 17 2019 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.5-3
+- Restore the tests subpackage (#1677978)
+
 * Sat Feb 02 2019 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-2
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_30_Mass_Rebuild
 
