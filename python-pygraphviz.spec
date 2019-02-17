@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.5
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 URL:            http://networkx.lanl.gov/pygraphviz/
@@ -88,7 +88,6 @@ chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
 
 %files -n python2-pygraphviz
 %{python2_sitearch}/pygraphviz*
-%exclude %{python2_sitearch}/pygraphviz/tests
 %exclude %{python2_sitearch}/pygraphviz/graphviz_wrap.c
 %doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/README.rst
@@ -96,7 +95,6 @@ chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
 
 %files -n python3-pygraphviz
 %{python3_sitearch}/pygraphviz*
-%exclude %{python3_sitearch}/pygraphviz/tests
 %exclude %{python3_sitearch}/pygraphviz/graphviz_wrap.c
 %doc %dir %{_pkgdocdir}
 %doc %{_pkgdocdir}/README.rst
@@ -109,6 +107,9 @@ chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
 %license LICENSE
 
 %changelog
+* Sun Feb 17 2019 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.5-2
+- Restore the tests subpackage (#1688154)
+
 * Thu Oct 11 2018 Jerry James <loganjerry@gmail.com> - 1.5-1
 - Update to latest version
 - Drop nose requirement; only needed to run tests, not to use the package
