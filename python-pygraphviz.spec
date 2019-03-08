@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.3
-Release:        2.rc2%{?dist}.1
+Release:        2.rc2%{?dist}.2
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 # https://github.com/pygraphviz/pygraphviz/issues/39
@@ -122,6 +122,9 @@ chmod g-w %{buildroot}%{python2_sitearch}/pygraphviz/_graphviz.so \
 %doc %{_pkgdocdir}/examples
 
 %changelog
+* Fri Mar 08 2019 Troy Dawson <tdawson@redhat.com> - 1.3-2.rc2.2
+- Rebuilt to change main python from 3.4 to 3.6
+
 * Wed Jan 23 2019 Scott K Logan <logans@cottsay.net> - 1.3-2rc2.1
 - Update spec format and add Python 3.4 and 3.6 to EPEL7
 
