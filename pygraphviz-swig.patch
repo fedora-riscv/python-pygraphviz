@@ -1,5 +1,5 @@
---- pygraphviz/graphviz.i.orig	2018-09-10 16:07:12.000000000 -0600
-+++ pygraphviz/graphviz.i	2018-10-11 11:11:44.010380342 -0600
+--- a/pygraphviz/graphviz.i.orig	2018-09-10 16:07:12.000000000 -0600
++++ b/pygraphviz/graphviz.i	2018-10-11 11:11:44.010380342 -0600
 @@ -162,7 +162,7 @@ int       agisstrict(Agraph_t * g);
  
  /* nodes */

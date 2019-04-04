@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.5
-Release:        3%{?dist}
+Release:        4%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 URL:            http://networkx.lanl.gov/pygraphviz/
@@ -8,6 +8,9 @@ Source0:        https://github.com/pygraphviz/pygraphviz/archive/pygraphviz-%{ve
 # Fix a few types in the swig interface
 # https://github.com/pygraphviz/pygraphviz
 Patch0:         pygraphviz-swig.patch
+
+# https://github.com/pygraphviz/pygraphviz/pull/191
+Patch0001:      0001-doc-use-add_object_type-instead-of-deprecated-add_de.patch
 
 BuildRequires:  gcc
 BuildRequires:  python3-devel
@@ -42,7 +45,7 @@ BuildArch:      noarch
 Documentation for PyGraphViz.
 
 %prep
-%autosetup -p0 -n pygraphviz-pygraphviz-%{version}
+%autosetup -p1 -n pygraphviz-pygraphviz-%{version}
 
 # Regenerate the swig-generated files
 swig -python pygraphviz/graphviz.i
@@ -85,6 +88,9 @@ chmod g-w %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so
 %license LICENSE
 
 %changelog
+* Thu Apr  4 2019 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.5-4
+- Fix build under sphinx 2.x (#1696133)
+
 * Sun Feb 17 2019 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.5-3
 - Restore the tests subpackage (#1677978)
 
