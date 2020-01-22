@@ -19,12 +19,12 @@ BuildRequires:  python3dist(sphinx)
 BuildRequires:  graphviz-devel
 BuildRequires:  swig
 
-%global _description                                                  \
-PyGraphviz is a Python interface to the Graphviz graph layout and     \
-visualization package. With PyGraphviz you can create, edit, read,    \
-write, and draw graphs using Python to access the Graphviz graph data \
-structure and layout algorithms. PyGraphviz is independent from       \
-NetworkX but provides a similar programming interface.
+%global _description %{expand:
+PyGraphviz is a Python interface to the Graphviz graph layout and
+visualization package. With PyGraphviz you can create, edit, read,
+write, and draw graphs using Python to access the Graphviz graph data
+structure and layout algorithms. PyGraphviz is independent from
+NetworkX but provides a similar programming interface.}
 
 %description %_description
 
@@ -33,8 +33,6 @@ Summary:        %{summary}
 %{?python_provide:%python_provide python3-pygraphviz}
 
 %description -n python3-pygraphviz %_description
-
-This package contains the version for Python 3.
 
 %package doc
 Summary:        Documentation for pygraphviz
