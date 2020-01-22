@@ -13,7 +13,7 @@ See https://bugs.python.org/issue34967 for similar changes in cpython.
  1 file changed, 4 insertions(+), 4 deletions(-)
 
 diff --git a/doc/source/conf.py b/doc/source/conf.py
-index 07e67378c0..230bbdcbef 100644
+index 07e6737..230bbdc 100644
 --- a/doc/source/conf.py
 +++ b/doc/source/conf.py
 @@ -190,7 +190,7 @@ def parse_event(env, sig, signode):

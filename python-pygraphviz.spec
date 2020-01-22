@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.5
-Release:        7%{?dist}
+Release:        8%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 URL:            http://networkx.lanl.gov/pygraphviz/
@@ -9,8 +9,10 @@ Source0:        https://github.com/pygraphviz/pygraphviz/archive/pygraphviz-%{ve
 # https://github.com/pygraphviz/pygraphviz
 Patch0:         pygraphviz-swig.patch
 
-# https://github.com/pygraphviz/pygraphviz/pull/191
-Patch0001:      0001-doc-use-add_object_type-instead-of-deprecated-add_de.patch
+Patch0001:      https://github.com/pygraphviz/pygraphviz/commit/027d11ddba.patch
+Patch0002:      https://github.com/pygraphviz/pygraphviz/commit/5ea579e2bc.patch
+Patch0003:      https://github.com/pygraphviz/pygraphviz/commit/bb61823fdf.patch
+Patch0004:      https://github.com/pygraphviz/pygraphviz/commit/8af04cf9a9.patch
 
 BuildRequires:  gcc
 BuildRequires:  python3-devel
@@ -86,6 +88,9 @@ chmod g-w %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so
 %license LICENSE
 
 %changelog
+* Wed Jan 22 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.5-8
+- Fix build under python3.9 (#1792949) and pypy
+
 * Thu Oct 03 2019 Miro Hrončok <mhroncok@redhat.com> - 1.5-7
 - Rebuilt for Python 3.8.0rc1 (#1748018)
 
