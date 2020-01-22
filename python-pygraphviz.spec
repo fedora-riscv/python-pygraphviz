@@ -19,6 +19,8 @@ BuildRequires:  gcc
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3dist(sphinx)
+BuildRequires:  python3dist(nose)
+BuildRequires:  python3dist(mock)
 BuildRequires:  graphviz-devel
 BuildRequires:  swig
 
@@ -74,6 +76,12 @@ cp -av doc/build/html %{buildroot}%{_pkgdocdir}/
 chmod g-w %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so
 
 %global _docdir_fmt %{name}
+
+%check
+# Test results are ignored, because whitespace difference cause tests to fail.
+# My intent in enabling this is to see when more stuff breaks.
+cd /
+PYTHONPATH=%{buildroot}%{python3_sitearch} python3 -c 'import pygraphviz; pygraphviz.test(verbosity=1)' || :
 
 %files -n python3-pygraphviz
 %{python3_sitearch}/pygraphviz*
