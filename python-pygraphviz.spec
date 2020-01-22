@@ -13,6 +13,7 @@ Patch0001:      https://github.com/pygraphviz/pygraphviz/commit/027d11ddba.patch
 Patch0002:      https://github.com/pygraphviz/pygraphviz/commit/5ea579e2bc.patch
 Patch0003:      https://github.com/pygraphviz/pygraphviz/commit/bb61823fdf.patch
 Patch0004:      https://github.com/pygraphviz/pygraphviz/commit/8af04cf9a9.patch
+Patch0005:      https://github.com/pygraphviz/pygraphviz/commit/601d3b02df7f664051feba0340c3618cf8474acd.patch
 
 BuildRequires:  gcc
 BuildRequires:  python3-devel
@@ -61,7 +62,7 @@ done
 %py3_build
 
 # docs
-%make_build -C doc html PYTHONPATH=$(pwd)/build/lib.%{python3_platform}-%{python3_version}
+%make_build -C doc html PYTHONPATH=$PWD/build/lib.%{python3_platform}-%{python3_version}
 
 %install
 %py3_install
