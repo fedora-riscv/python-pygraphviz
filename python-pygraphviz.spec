@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.5
-Release:        8%{?dist}
+Release:        9%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 URL:            http://networkx.lanl.gov/pygraphviz/
@@ -97,6 +97,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} python3 -c 'import pygraphviz; pygrap
 %license LICENSE
 
 %changelog
+* Wed Jan 22 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.5-9
+- Bump version to rebuild automatically in python39 copr
+
 * Wed Jan 22 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.5-8
 - Fix build under python3.9 (#1792949) and pypy
 
