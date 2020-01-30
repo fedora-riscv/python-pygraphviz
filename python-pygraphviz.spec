@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.5
-Release:        9%{?dist}
+Release:        10%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 URL:            http://networkx.lanl.gov/pygraphviz/
@@ -97,6 +97,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} python3 -c 'import pygraphviz; pygrap
 %license LICENSE
 
 %changelog
+* Thu Jan 30 2020 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-10
+- Rebuilt for https://fedoraproject.org/wiki/Fedora_32_Mass_Rebuild
+
 * Wed Jan 22 2020 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.5-9
 - Bump version to rebuild automatically in python39 copr
 
