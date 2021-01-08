@@ -15,6 +15,7 @@ Patch0003:      https://github.com/pygraphviz/pygraphviz/commit/bb61823fdf.patch
 Patch0004:      https://github.com/pygraphviz/pygraphviz/commit/8af04cf9a9.patch
 Patch0005:      https://github.com/pygraphviz/pygraphviz/commit/601d3b02df7f664051feba0340c3618cf8474acd.patch
 
+BuildRequires: make
 BuildRequires:  gcc
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(setuptools)
