@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
-Version:        1.5
-Release:        13%{?dist}
+Version:        1.6
+Release:        1%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 URL:            http://networkx.lanl.gov/pygraphviz/
@@ -9,13 +9,7 @@ Source0:        https://github.com/pygraphviz/pygraphviz/archive/pygraphviz-%{ve
 # https://github.com/pygraphviz/pygraphviz
 Patch0:         pygraphviz-swig.patch
 
-Patch0001:      https://github.com/pygraphviz/pygraphviz/commit/027d11ddba.patch
-Patch0002:      https://github.com/pygraphviz/pygraphviz/commit/5ea579e2bc.patch
-Patch0003:      https://github.com/pygraphviz/pygraphviz/commit/bb61823fdf.patch
-Patch0004:      https://github.com/pygraphviz/pygraphviz/commit/8af04cf9a9.patch
-Patch0005:      https://github.com/pygraphviz/pygraphviz/commit/601d3b02df7f664051feba0340c3618cf8474acd.patch
-
-BuildRequires: make
+BuildRequires:  make
 BuildRequires:  gcc
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(setuptools)
@@ -98,6 +92,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} python3 -c 'import pygraphviz; pygrap
 %license LICENSE
 
 %changelog
+* Mon Mar 22 2021 Scott K Logan <logans@cottsay.net> - 1.6-1
+- Update to the latest version supported by Python 3.6
+
 * Wed Jan 27 2021 Fedora Release Engineering <releng@fedoraproject.org> - 1.5-13
 - Rebuilt for https://fedoraproject.org/wiki/Fedora_34_Mass_Rebuild
 
