@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.7
-Release:        1%{?dist}
+Release:        2%{?dist}
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 URL:            http://networkx.lanl.gov/pygraphviz/
@@ -92,6 +92,9 @@ PYTHONPATH=%{buildroot}%{python3_sitearch} python3 -c 'import pygraphviz; pygrap
 %license LICENSE
 
 %changelog
+* Fri Jun 04 2021 Python Maint <python-maint@redhat.com> - 1.7-2
+- Rebuilt for Python 3.10
+
 * Tue Feb  2 2021 Zbigniew Jędrzejewski-Szmek <zbyszek@in.waw.pl> - 1.7-1
 - Latest version (#1866615)
 
