@@ -1,5 +1,5 @@
 Name:           python-pygraphviz
-Version:        1.7
+Version:        1.9
 Release:        %autorelease
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
@@ -11,7 +11,7 @@ BuildRequires:  gcc
 BuildRequires:  python3-devel
 BuildRequires:  python3dist(setuptools)
 BuildRequires:  python3dist(sphinx)
-BuildRequires:  python3dist(nose)
+BuildRequires:  python3dist(pytest)
 BuildRequires:  python3dist(mock)
 BuildRequires:  python3dist(sphinx-rtd-theme)
 BuildRequires:  python3dist(sphinx-gallery)
@@ -73,10 +73,7 @@ chmod g-w %{buildroot}%{python3_sitearch}/pygraphviz/_graphviz.*.so
 %global _docdir_fmt %{name}
 
 %check
-# Test results are ignored, because whitespace difference cause tests to fail.
-# My intent in enabling this is to see when more stuff breaks.
-cd /
-PYTHONPATH=%{buildroot}%{python3_sitearch} python3 -c 'import pygraphviz; pygraphviz.test(verbosity=1)' || :
+pytest -v %{buildroot}%{python3_sitearch}/pygraphviz/tests/
 
 %files -n python3-pygraphviz
 %{python3_sitearch}/pygraphviz*
