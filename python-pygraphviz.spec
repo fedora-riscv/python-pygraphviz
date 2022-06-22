@@ -59,7 +59,7 @@ done
 %py3_build
 
 # docs
-%make_build -C doc html PYTHONPATH=$PWD/build/lib.%{python3_platform}-%{python3_version}
+%make_build -C doc html PYTHONPATH=$(echo $PWD/build/lib.%{python3_platform}-*)
 
 %install
 %py3_install
