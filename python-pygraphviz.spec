@@ -1,5 +1,5 @@
 Name:           python-pygraphviz
-Version:        1.9
+Version:        1.10
 Release:        %autorelease
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
@@ -60,6 +60,7 @@ done
 
 # docs
 %make_build -C doc html PYTHONPATH=$(echo $PWD/build/lib.%{python3_platform}-*)
+# or $PWD/build/lib.%%{python3_platform}-%%(%%python3 -c 'import sys; print(sys.implementation.cache_tag)'
 
 %install
 %py3_install
