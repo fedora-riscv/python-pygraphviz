@@ -1,6 +1,6 @@
 Name:           python-pygraphviz
 Version:        1.10
-Release:        %autorelease
+Release:        %autorelease -e rv64
 Summary:        Create and Manipulate Graphs and Networks
 License:        BSD
 URL:            http://networkx.lanl.gov/pygraphviz/
@@ -18,6 +18,9 @@ BuildRequires:  python3dist(sphinx-gallery)
 BuildRequires:  python3dist(numpydoc)
 BuildRequires:  graphviz-devel
 BuildRequires:  swig
+%ifarch riscv64
+BuildRequires:  python3-matplotlib
+%endif
 
 %global _description %{expand:
 PyGraphviz is a Python interface to the Graphviz graph layout and
